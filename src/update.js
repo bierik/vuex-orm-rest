@@ -1,16 +1,20 @@
 import _ from 'lodash';
 import { checkConstraints } from '@/constraint';
+import joinPath from 'path.join';
 
-export default async function update(keys = Object.keys(this.$toJson())) {
+export default async function update(keys = Object.keys(this.$toJson()), { relations = [] } = {}) {
   const { patch } = this.client;
 
   if (_.isUndefined(patch)) {
     throw new Error('HTTP Client has no `patch` method');
   }
 
+  const self = this;
+
   checkConstraints(this);
 
-  const { data } = await patch(this.apiPath(), this.pickKeys(keys));
+  const path = joinPath(...relations.map(r => r.apiPath()), self.apiPath);
+  const { data } = await patch(path, this.pickKeys(keys));
   const stored = await this.$update(data);
   return stored[this.constructor.entity][0];
 }
