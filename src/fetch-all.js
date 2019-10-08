@@ -7,6 +7,7 @@ export default async function fetchAll({
   relations = [],
   replace = false,
   useCache = true,
+  insertMethods = {},
 } = {}) {
   const { get } = this.client;
 
@@ -35,6 +36,7 @@ export default async function fetchAll({
     return new Promise(async (resolve, reject) => {
       const path = joinPath(...relations.map(r => r.apiPath()), self.apiPath);
       const data = await get(path, { params: filter });
+      Object.assign(data, insertMethods);
       try {
         const insertedData = replace ? await self.create(data) : await self.insertOrUpdate(data);
         resolve(insertedData[self.entity]);
@@ -43,9 +45,10 @@ export default async function fetchAll({
       }
     });
   }
-
-  return Promise.race([
-    ...(useCache ? [fetchCache()] : []),
-    fetchAPI(),
-  ]);
+  return useCache
+    ? Promise.race([
+      fetchCache(),
+      fetchAPI(),
+    ])
+    : Promise.resolve(fetchAPI());
 }
