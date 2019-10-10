@@ -3,7 +3,7 @@ import { checkConstraints } from '@/constraint';
 import joinPath from 'path.join';
 
 export default async function fetch(id, { useCache = true } = {}) {
-  const { get } = this.client;
+  const { get } = this.http;
 
   if (_.isUndefined(get)) {
     throw new Error('HTTP Client has no `get` method');

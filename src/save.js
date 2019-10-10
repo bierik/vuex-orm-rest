@@ -3,7 +3,7 @@ import { checkConstraints } from '@/constraint';
 import joinPath from 'path.join';
 
 export default async function save(keys = Object.keys(this.$toJson()), { relations = [] } = {}) {
-  const { post } = this.client;
+  const { post } = this.http;
 
   if (_.isUndefined(post)) {
     throw new Error('HTTP Client has no `post` method');

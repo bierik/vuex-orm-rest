@@ -3,7 +3,7 @@ import { checkConstraints } from '@/constraint';
 import joinPath from 'path.join';
 
 export default async function update(keys = Object.keys(this.$toJson()), { relations = [] } = {}) {
-  const { patch } = this.client;
+  const { patch } = this.http;
 
   if (_.isUndefined(patch)) {
     throw new Error('HTTP Client has no `patch` method');

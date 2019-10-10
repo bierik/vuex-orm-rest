@@ -9,7 +9,7 @@ export default async function fetchAll({
   useCache = true,
   insertMethods = {},
 } = {}) {
-  const { get } = this.client;
+  const { get } = this.http;
 
   if (_.isUndefined(get)) {
     throw new Error('HTTP Client has no `get` method');
