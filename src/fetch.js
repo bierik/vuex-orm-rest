@@ -32,7 +32,11 @@ export default async function fetch(id, { useCache = true, options = {} } = {}) 
 
   function fetchAPI() {
     return new Promise(async (resolve, reject) => {
-      const data = await get(joinPath(self.apiPath, id.toString()), Object.assign(this.http.defaults, options));
+      const data = await get(
+        joinPath(self.apiPath, id.toString()),
+        Object.assign(this.http.defaults, options),
+      );
+
       try {
         const insertedData = await self.insertOrUpdate(data);
         resolve(insertedData[self.entity][0]);
