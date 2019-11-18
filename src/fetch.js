@@ -34,7 +34,7 @@ export default async function fetch(id, { useCache = true, options = {} } = {}) 
     return new Promise(async (resolve, reject) => {
       const data = await get(
         joinPath(self.apiPath, id.toString()),
-        Object.assign(this.http.defaults, options),
+        options,
       );
 
       try {
