@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { checkConstraints } from '@/constraint';
 import joinPath from 'path.join';
 
-export default async function fetch(id, { useCache = true } = {}) {
+export default async function fetch(id, { useCache = true, options = {} } = {}) {
   const { get } = this.http;
 
   if (_.isUndefined(get)) {
@@ -32,7 +32,7 @@ export default async function fetch(id, { useCache = true } = {}) {
 
   function fetchAPI() {
     return new Promise(async (resolve, reject) => {
-      const data = await get(joinPath(self.apiPath, id.toString()));
+      const data = await get(joinPath(self.apiPath, id.toString()), options);
       try {
         const insertedData = await self.insertOrUpdate(data);
         resolve(insertedData[self.entity][0]);
