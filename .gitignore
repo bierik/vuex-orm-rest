@@ -2,4 +2,4 @@
 yarn-error.log
 vuex-orm-rest*.tgz
 coverage
-dist
+.idea

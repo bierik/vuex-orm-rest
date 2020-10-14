@@ -19,14 +19,14 @@ export default function install({ Model }, { client, useCache = true } = {}) {
     throw new Error('HTTP-Client is not defined');
   }
 
-  Model.client = client;
+  Model.http = client;
   Model.useCache = useCache;
 
   Model.fetch = fetch;
   Model.fetchAll = fetchAll;
   Model.findOrFetch = findOrFetch;
 
-  Model.prototype.client = client;
+  Model.prototype.http = client;
   Model.prototype.save = save;
   Model.prototype.update = update;
   Model.prototype.replace = replace;
