@@ -11,8 +11,13 @@ export default async function save(keys = Object.keys(this.$toJson()), { relatio
 
   checkConstraints(this);
   const path = joinPath(...relations.map(r => r.apiPath()), this.constructor.apiPath);
-  const data = await post(path, this.pickKeys(keys));
-  const stored = await this.$insert(data);
-  await this.$delete();
-  return stored[this.constructor.entity][0];
+  const { data, status } = await post(path, this.pickKeys(keys));
+
+  if (status === 201) {
+    const stored = await this.$insert({ data });
+    await this.$delete();
+    return stored[this.constructor.entity][0];
+  }
+
+  return { data, status };
 }
